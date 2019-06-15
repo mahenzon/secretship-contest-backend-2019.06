@@ -4,7 +4,10 @@ const express = require('express')
 const session = require('express-session')
 const bodyParser = require('body-parser')
 const MongoDBStore = require('connect-mongodb-session')(session)
+
 const config = require('./config')
+const tgMedia = require('./routes/telegram-media')
+const api = require('./routes/api')
 
 
 const app = express()
@@ -29,22 +32,16 @@ app.use(session({
   genid: () => uuid(),
   secret: config.sessionSecret,
   resave: true,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24 * 1,  // 1 day
   },
 }))
 
 
-// Handlers start here
-
-// Handle index
-app.get('/', (req, res) => {
-  console.log('Inside homepage')
-  console.log('sessionID:', req.sessionID)
-  res.status(204).send()
-})
-
+// Setup routes
+app.use('/api', api)
+app.use('/telegram-media', tgMedia)
 
 // Start server
 app.listen(config.port, () => {
