@@ -30,10 +30,12 @@ store.on('error', error => console.log(error))
 app.use(session({
   store,
   genid: () => uuid(),
-  secret: config.sessionSecret,
-  resave: true,
+  resave: false,
   saveUninitialized: false,
+  secret: config.sessionSecret,
   cookie: {
+    sameSite: true,  // 'strict
+    secure: !!config.isProduction,
     maxAge: 1000 * 60 * 60 * 24 * 1,  // 1 day
   },
 }))
