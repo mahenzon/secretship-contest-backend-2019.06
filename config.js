@@ -18,6 +18,7 @@ function readSecret() {
 
 
 module.exports = {
+  isProduction: process.env.NODE_ENV === 'production',
   token: process.env.BOT_TOKEN,
   domain: process.env.DOMAIN,
   hookPath: process.env.WEBHOOK_PATH || null,
