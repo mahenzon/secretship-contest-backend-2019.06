@@ -1,2 +1,3 @@
-node_modules
-sessionSecret
+/node_modules/
+/sessionSecret
+/.env
