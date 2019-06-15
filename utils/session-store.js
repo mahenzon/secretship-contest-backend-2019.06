@@ -24,7 +24,7 @@ const sessionStore = session({
   cookie: {
     sameSite: true,  // 'strict'
     secure: !!config.isProduction,
-    maxAge: 1000 * 60 * 60 * 24 * 1,  // 1 day
+    maxAge: 1000 * 60 * 60 * 24 * 7,  // 1 week
   },
 })
 
