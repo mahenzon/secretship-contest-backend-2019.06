@@ -13,6 +13,7 @@ module.exports = {
         "ecmaVersion": 2018
     },
     "rules": {
-        semi: ["error", "never"]
+        semi: ["error", "never"],
+        'no-multi-spaces': ["error", { ignoreEOLComments: true }],
     }
 };
