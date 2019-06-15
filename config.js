@@ -2,13 +2,13 @@ const { resolve } = require('path')
 const { randomFillSync } = require('crypto')
 const { existsSync, readFileSync, writeFile } = require('fs')
 
-function readSecret () {
+function readSecret() {
   const secretPath = resolve(process.env.SECRET_FILEPATH || 'sessionSecret')
   if (existsSync(secretPath)) {
     return readFileSync(secretPath, 'utf8')
   }
   const secret = randomFillSync(Buffer.alloc(42)).toString('hex')
-  writeFile(secretPath, secret, (err) => !err || console.log(err))
+  writeFile(secretPath, secret, err => !err || console.log(err))
   return secret
 }
 
