@@ -4,7 +4,7 @@ module.exports = {
         "es6": true,
         "node": true
     },
-    "extends": "standard",
+    "extends": "airbnb-base",
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -13,6 +13,6 @@ module.exports = {
         "ecmaVersion": 2018
     },
     "rules": {
-        'comma-dangle': ["error", "always-multiline"],
+        semi: ["error", "never"]
     }
 };
