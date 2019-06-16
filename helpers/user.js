@@ -45,19 +45,27 @@ function findAndSendUser(res, user_id) {
     if (!user) {
       return sendError(404, `User with id ${user_id} not found`, res)
     }
-    console.log('User is', user)
     return sendExistingUser(res, user)
   })
 }
 
-function getAuthorizedUsers(res) {
-  // TODO: offset, limit
-  User.find({}, (err, users) => {
-    if (err) {
-      return sendServerError('Error fetching database!', res, err)
-    }
-    return res.json({ users: users.map(preparedUser) })
-  })
+async function getAuthorizedUsers(res, params) {
+  let {
+    offset = 0,
+    limit = 50,
+  } = params
+  offset = Number(offset)
+  limit = Number(limit)
+  if (Number.isNaN(offset) || Number.isNaN(limit)) {
+    return sendServerError("Both 'offset' and 'limit' params have to be numeric!", res)
+  }
+  try {
+    const count = await User.countDocuments()
+    const users = await User.find().skip(offset).limit(limit)
+    return res.json({ users: users.map(preparedUser), total: count })
+  } catch (error) {
+    return sendServerError('Error fetching database!', res, error)
+  }
 }
 
 // Login
