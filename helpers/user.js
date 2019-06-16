@@ -75,7 +75,7 @@ async function loginUser(req, res, params) {
 
   const user_id = params.id
   req.session.userId = user_id  // mark as authorized
-  return findAndSendUser(res, user_id)
+  res.redirect('/')
 }
 
 // Logout

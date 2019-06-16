@@ -14,6 +14,7 @@ module.exports = {
     },
     "rules": {
         semi: ["error", "never"],
-        'no-multi-spaces': ["error", { ignoreEOLComments: true }],
+        "no-multi-spaces": ["error", { ignoreEOLComments: true }],
+        "no-console": "off",
     }
 };

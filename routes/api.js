@@ -29,7 +29,7 @@ router.get('/getMe', async (req, res) => {
 router.get('/user/:id', async (req, res) => findAndSendUser(res, req.params.id))
 
 // Get authorized users
-router.get('/users/', async (req, res) => {
+router.get('/users', async (req, res) => {
   // TODO: Consider using offset to load more...
   return getAuthorizedUsers(res)
 })
