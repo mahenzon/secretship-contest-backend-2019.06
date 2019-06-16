@@ -63,11 +63,13 @@ function getAuthorizedUsers(res) {
 // Login
 async function loginUser(req, res, params) {
   if (!checkIntegrity(params)) {
+    req.session.destroy()
     return sendError(401, 'Not Authorized', res)
   }
   const now = new Date()
   const authDate = params.auth_date * 1000
   if (now - authDate > ONE_DAY) {
+    req.session.destroy()
     return sendError(401, 'Session expired, please click login button again', res)
   }
 
