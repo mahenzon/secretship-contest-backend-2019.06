@@ -52,7 +52,7 @@ function findAndSendUser(res, user_id) {
 async function getAuthorizedUsers(res, params) {
   let {
     offset = 0,
-    limit = 50,
+    limit = 25,
   } = params
   offset = Number(offset)
   limit = Number(limit)
