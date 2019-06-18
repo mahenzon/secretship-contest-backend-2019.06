@@ -55,19 +55,21 @@ function sendExistingUser(res, user) {
   })
 }
 
-function findAndSendUser(res, user_id) {
+async function findAndSendUser(res, user_id) {
   if (Number.isNaN(Number(user_id))) {  // https://github.com/airbnb/javascript#standard-library
     return sendError(400, `ID cannot be like '${user_id}'!`, res)
   }
-  User.findOne({ user_id }, (err, user) => {
-    if (err) {
-      return sendServerError('Error fetching database!', res, err)
+
+  try {
+    const user = await User.findOne({ user_id })
+    if (user) {
+      return sendExistingUser(res, user)
     }
-    if (!user) {
-      return sendError(404, `User with id ${user_id} not found`, res)
-    }
-    return sendExistingUser(res, user)
-  })
+  } catch (error) {
+    return sendServerError('Error fetching database!', res, error)
+  }
+
+  return sendError(404, `User with id ${user_id} not found`, res)
 }
 
 async function getAuthorizedUsers(res, params) {
