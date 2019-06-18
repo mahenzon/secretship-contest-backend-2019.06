@@ -29,8 +29,6 @@ router.get('/getMe', async (req, res) => {
 router.get('/user/:id', async (req, res) => findAndSendUser(res, req.params.id))
 
 // Get authorized users
-router.get('/users', async (req, res) => {
-  return getAuthorizedUsers(res, req.query)
-})
+router.get('/users', async (req, res) => getAuthorizedUsers(res, req.query))
 
 module.exports = router

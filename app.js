@@ -13,13 +13,10 @@ mongoose.connect(config.mongoConnectUri, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useFindAndModify: false,
+  reconnectTries: Number.MAX_VALUE,
 })
 const db = mongoose.connection
 
-// Check connection
-db.once('open', () => {
-  console.log('Connected to MongoDB')
-})
 
 // Check for db errors
 db.on('error', (err) => {
@@ -38,10 +35,15 @@ app.use(sessionStore)
 
 
 // Setup routes
-app.use(`${config.rootPath}api`, api)
-app.use(`${config.rootPath}telegram-media`, tgMedia)
+app.use(`${config.rootPath}/api`, api)
+app.use(`${config.rootPath}/telegram-media`, tgMedia)
 
-// Start server
-app.listen(config.port, () => {
-  console.log('Listening on localhost, port', config.port)
+
+// Check connection
+db.once('open', () => {
+  console.log('Connected to MongoDB')
+  // Start server only after DB connect
+  app.listen(config.port, () => {
+    console.log('Listening on localhost, port', config.port)
+  })
 })
