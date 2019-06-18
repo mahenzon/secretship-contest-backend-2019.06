@@ -36,6 +36,7 @@ function preparedUser({
   username,
   first_name,
   last_name,
+  photo_url,
   language_code,
   profile_photo_id,
 }) {
@@ -44,6 +45,7 @@ function preparedUser({
     username,
     first_name,
     last_name,
+    photo_url,
     language_code,
     profile_photo_id,
     join_date: createdAt.getTime(),
@@ -67,7 +69,7 @@ async function findAndSendUser(res, user_id) {
       return sendExistingUser(res, user)
     }
   } catch (error) {
-    return sendServerError('Error fetching database!', res, error)
+    return sendServerError('dbFetchError', res, error)
   }
 
   return sendError(404, `User with id ${user_id} not found`, res)
@@ -81,14 +83,14 @@ async function getAuthorizedUsers(res, params) {
   offset = Number(offset)
   limit = Number(limit)
   if (Number.isNaN(offset) || Number.isNaN(limit)) {
-    return sendServerError("Both 'offset' and 'limit' params have to be numeric!", res)
+    return sendServerError('offsetOrLimitInvalid', res)
   }
   try {
     const count = await User.countDocuments()
     const users = await User.find().skip(offset).limit(limit)
     return res.json({ users: users.map(preparedUser), total: count })
   } catch (error) {
-    return sendServerError('Error fetching database!', res, error)
+    return sendServerError('dbFetchError', res, error)
   }
 }
 
@@ -96,13 +98,13 @@ async function getAuthorizedUsers(res, params) {
 async function loginUser(req, res, params) {
   if (!checkIntegrity(params)) {
     req.session.destroy()
-    return redirectWithError('not-authorised', res)
+    return redirectWithError('notAuthorised', res)
   }
   const now = new Date()
   const authDate = params.auth_date * 1000
   if (now - authDate > ONE_DAY) {
     req.session.destroy()
-    return redirectWithError('session-expired', res)
+    return redirectWithError('sessionExpired', res)
   }
 
   addOrUpdateUser(params)
@@ -114,7 +116,7 @@ async function loginUser(req, res, params) {
 async function logoutUser(req, res) {
   req.session.destroy((err) => {
     if (err) {
-      return sendServerError('Error logging you out. Please try again', res, err)
+      return sendServerError('errorLogOut', res, err)
     }
     res.clearCookie()
     return res.json({})
