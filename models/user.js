@@ -13,6 +13,7 @@ const UserSchema = new Schema({
   username: String,
   language_code: String,
   profile_photo_id: String,
+  photo_url: String,  // that one which is returned by tg on login
 })
 
 UserSchema.plugin(timestamps)

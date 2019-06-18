@@ -8,6 +8,27 @@ const {
 const ONE_DAY = 1000 * 60 * 60 * 24
 
 
+async function addOrUpdateUser(userInfo) {
+  const user_id = userInfo.id
+  const newUser = {
+    user_id,
+    username: userInfo.username,
+    last_name: userInfo.last_name,
+    first_name: userInfo.first_name,
+    photo_url: userInfo.photo_url,
+  }
+  const options = {
+    upsert: true,
+    setDefaultsOnInsert: true,
+  }
+  try {
+    await User.findOneAndUpdate({ user_id }, newUser, options)
+  } catch (error) {
+    console.error('Error adding new user!', userInfo, error)
+  }
+}
+
+
 function preparedUser({
   createdAt,
   user_id,
@@ -81,8 +102,8 @@ async function loginUser(req, res, params) {
     return sendError(401, 'Session expired, please click login button again', res)
   }
 
-  const user_id = params.id
-  req.session.userId = user_id  // mark as authorized
+  addOrUpdateUser(params)
+  req.session.userId = params.id  // mark as authorized
   res.redirect('/')
 }
 
