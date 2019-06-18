@@ -3,6 +3,7 @@ const User = require('../models/user')
 const {
   sendError,
   sendServerError,
+  redirectWithError,
 } = require('./api')
 
 const ONE_DAY = 1000 * 60 * 60 * 24
@@ -95,13 +96,13 @@ async function getAuthorizedUsers(res, params) {
 async function loginUser(req, res, params) {
   if (!checkIntegrity(params)) {
     req.session.destroy()
-    return sendError(401, 'Not Authorized', res)
+    return redirectWithError('not-authorised', res)
   }
   const now = new Date()
   const authDate = params.auth_date * 1000
   if (now - authDate > ONE_DAY) {
     req.session.destroy()
-    return sendError(401, 'Session expired, please click login button again', res)
+    return redirectWithError('session-expired', res)
   }
 
   addOrUpdateUser(params)

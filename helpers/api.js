@@ -9,7 +9,13 @@ function sendServerError(text, res, err) {
   return sendError(500, text, res, err)
 }
 
+function redirectWithError(errorText, res) {
+  const text = encodeURIComponent(errorText)
+  res.redirect(`/#/show-error?text=${text}`)
+}
+
 module.exports = {
   sendError,
   sendServerError,
+  redirectWithError,
 }
