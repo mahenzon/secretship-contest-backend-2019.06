@@ -36,15 +36,10 @@ app.use(bodyParser.json())
 // Setup app to use session
 app.use(sessionStore)
 
-app.get('/', (req, res) => {
-  console.log('sessionID:', req.sessionID)
-  console.log('session:', req.session)
-  // res.send(`OKs<br>${req.sessionID}`)
-  res.json(req.session)
-})
+
 // Setup routes
-app.use('/api', api)
-app.use('/telegram-media', tgMedia)
+app.use(`${config.rootPath}api`, api)
+app.use(`${config.rootPath}telegram-media`, tgMedia)
 
 // Start server
 app.listen(config.port, () => {

@@ -16,13 +16,15 @@ function readSecret() {
   return secret
 }
 
+const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
-  isProduction: process.env.NODE_ENV === 'production',
+  isProduction,
   token: process.env.BOT_TOKEN,
   domain: process.env.DOMAIN,
   hookPath: process.env.WEBHOOK_PATH || null,
   port: process.env.PORT || 3001,
   mongoConnectUri: process.env.MONGO_URI || 'mongodb://localhost/contest-bot',
   sessionSecret: process.env.SECRET || readSecret(),
+  rootPath: isProduction ? '/secretship-contest-2019.06/' : '/',
 }
