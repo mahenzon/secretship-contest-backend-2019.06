@@ -1,8 +1,10 @@
-// Using model only for requests
-// Full model can be found here:
+// Similar model can be found here:
 // https://github.com/surik00/secretship-contest-bot-2019.06/blob/master/models/user.js
 
 const { Schema, model } = require('mongoose')
+const timestamps = require('mongoose-timestamp')
+const uniqueValidator = require('mongoose-unique-validator')
+
 
 const UserSchema = new Schema({
   user_id: Number,
@@ -11,8 +13,10 @@ const UserSchema = new Schema({
   username: String,
   language_code: String,
   profile_photo_id: String,
-  createdAt: Date,
 })
+
+UserSchema.plugin(timestamps)
+UserSchema.plugin(uniqueValidator)
 
 const User = model('User', UserSchema)
 module.exports = User
