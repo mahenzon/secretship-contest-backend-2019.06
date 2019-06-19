@@ -35,8 +35,8 @@ app.use(sessionStore)
 
 
 // Setup routes
-app.use(`${config.rootPath}/api`, api)
-app.use(`${config.rootPath}/telegram-media`, tgMedia)
+app.use(`${config.rootPath}api`, api)
+app.use(`${config.rootPath}telegram-media`, tgMedia)
 
 
 // Check connection

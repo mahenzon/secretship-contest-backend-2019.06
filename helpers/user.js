@@ -1,3 +1,4 @@
+const config = require('../config')
 const checkIntegrity = require('../utils/tg-check-integrity')
 const User = require('../models/user')
 const {
@@ -109,7 +110,7 @@ async function loginUser(req, res, params) {
 
   addOrUpdateUser(params)
   req.session.userId = params.id  // mark as authorized
-  res.redirect('/')
+  res.redirect(config.rootPath)
 }
 
 // Logout

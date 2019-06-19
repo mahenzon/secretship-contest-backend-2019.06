@@ -1,3 +1,6 @@
+const config = require('../config')
+
+
 function sendError(status, text, args, res, err) {
   if (err) {
     console.log('There was an error!:', err)
@@ -15,7 +18,7 @@ function sendServerError(text, res, err) {
 
 function redirectWithError(errorText, res) {
   const text = encodeURIComponent(errorText)
-  res.redirect(`/#/show-error?text=${text}`)
+  res.redirect(`${config.rootPath}#/show-error?text=${text}`)
 }
 
 module.exports = {

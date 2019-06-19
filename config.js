@@ -26,5 +26,5 @@ module.exports = {
   port: process.env.PORT || 3001,
   mongoConnectUri: process.env.MONGO_URI || 'mongodb://localhost/contest-bot',
   sessionSecret: process.env.SECRET || readSecret(),
-  rootPath: isProduction ? '/secretship-contest-2019.06/' : '',
+  rootPath: isProduction ? '/secretship-contest-2019.06/' : '/',
 }
