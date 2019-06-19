@@ -60,7 +60,7 @@ function sendExistingUser(res, user) {
 
 async function findAndSendUser(res, user_id) {
   if (Number.isNaN(Number(user_id))) {  // https://github.com/airbnb/javascript#standard-library
-    return sendError(400, `ID cannot be like '${user_id}'!`, res)
+    return sendError(400, 'invalidId', user_id, res)
   }
 
   try {
@@ -72,7 +72,7 @@ async function findAndSendUser(res, user_id) {
     return sendServerError('dbFetchError', res, error)
   }
 
-  return sendError(404, `User with id ${user_id} not found`, res)
+  return sendError(404, 'userNotFound', user_id, res)
 }
 
 async function getAuthorizedUsers(res, params) {
