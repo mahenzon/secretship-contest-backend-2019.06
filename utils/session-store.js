@@ -22,9 +22,14 @@ const sessionStore = session({
   saveUninitialized: false,
   secret: config.sessionSecret,
   cookie: {
-    sameSite: true,  // 'strict'
-    secure: !!config.isProduction,
-    maxAge: 1000 * 60 * 60 * 24 * 7,  // 1 week
+    // Project web path
+    path: config.rootPath,
+    // 'strict'
+    sameSite: true,
+    // cannot set secure when using not root path https://t.me/c/1443500416/895
+    secure: false,
+    // 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 })
 
